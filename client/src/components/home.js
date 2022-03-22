@@ -1,0 +1,181 @@
+import {Button, Row, Col, InputGroup, FormControl, Card, Dropdown, DropdownButton } from 'react-bootstrap';
+import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import _ from 'lodash';
+import { React, useEffect, useState } from 'react';
+import { getConsoles, getGPUs } from '../actions';
+import { Chart, registerables } from 'chart.js'
+Chart.register(...registerables);
+
+//import * as tf from '@tensorflow/tfjs';
+//script start //"react-scripts start", 
+
+
+
+const Home = () => {
+
+    const gpuResults = useSelector(state => state.gpus);     
+    const consoleResults = useSelector(state => state.consoles);      
+     
+    const [searchParam, setSearchParam] = useState("");    
+    const [dropdownSelect, setDropdownSelect] = useState("");
+    const dispatch = useDispatch();    
+
+    useEffect(() => {  
+        setDropdownSelect("No selection")
+        //calculateChartData(searchResults);                                 
+    }, [getGPUs, dispatch, searchParam]);
+
+    async function handleButtonClick (data) {     
+        console.log(dropdownSelect);
+        if (dropdownSelect === "GPU") {            
+            await dispatch(getGPUs(data)); 
+        }
+        if (dropdownSelect === "Consoles") {
+            console.log("You searched for consoles");
+            await dispatch(getConsoles(data));
+        }
+        if (dropdownSelect === "No selection") {
+            console.log("Make a selection before searching database");
+        };                                       
+    };   
+
+    async function handleDropdownSelect (e) {
+        setDropdownSelect(e);
+    };
+
+    // Tensorflow Code
+    /*
+    const [modelState, setModelState] = useState({  //TensorFlow
+        model: null,
+        trained: false,
+        predictedValue: 'Set up Table',
+        valueToPredict: 1,
+    });    
+
+    const trainModel = async () => {
+        let xVals = [];
+        let yVals = [];        
+        
+        const model = tf.sequential();
+        model.add(tf.layers.dense({units: 1, inputShape: [1]}));
+
+        model.compile({loss: 'meanSquaredError', optimizer: 'sgd'});
+
+        //Generate Data
+        const xs = tf.tensor2d(xVals, [xVals.length, 1]);
+        const ys = tf.tensor2d(yVals, [yVals.length, 1]);
+
+        await model.fit(xs, ys, {epochs: 250});
+
+        document.getElementById('micro-out-div').innerText = 
+            model.predict(tf.tensor2d([20], [1, 1])).dataSync();
+
+    };
+
+    const handlePricePredict = async () => {  //Tensorflow
+
+    }
+    */
+
+    // Render results/tables 
+    function renderSearchResults() {
+        
+        if (!_.isEmpty(gpuResults)) {
+         return (
+        <div>
+        <h3>GPU Results</h3>
+        <FullContainer>
+        <Row className = 'mb-5 mt-5' md={5}>            
+            {gpuResults.slice(0, 5).map((results) =>              
+            <Col>
+            <Card style={{ width: '18rem' }}>                        
+                <Card.Body>
+                    <Card.Title>{results.title}</Card.Title>
+                    <Card.Subtitle>Price: ${results.price}</Card.Subtitle>
+                    <Card.Text>Date: {results.date}</Card.Text>                            
+                </Card.Body>
+                <Card.Img variant="top" src={results.imageURL} />
+            </Card>  
+            </Col>         
+          
+             )}                             
+        </Row>
+        </FullContainer>
+        <h3>Console Results</h3>
+        <FullContainer>
+        <Row className = 'mb-5 mt-5' md={5}>            
+            {consoleResults.slice(0, 5).map((results) =>              
+            <Col>
+            <Card style={{ width: '18rem' }}>                        
+                <Card.Body>
+                    <Card.Title>{results.title}</Card.Title>
+                    <Card.Subtitle>Price: ${results.price}</Card.Subtitle>
+                    <Card.Text>Date: {results.date}</Card.Text>                            
+                </Card.Body>
+                <Card.Img variant="top" src={results.imageURL} />
+            </Card>  
+            </Col>         
+          
+             )}                             
+        </Row>
+        </FullContainer>                
+        </div>
+        )   
+        };
+        return <div>No Search Entered</div>       
+    };
+
+
+    //function renderChart(xValues, yValues) {};
+    
+
+    return (
+    <div>
+    <QuartContainer>        
+        <InputGroup onChange={event => setSearchParam(event.target.value)}
+        className="mb-3">
+            <FormControl
+            placeholder="What are ya buyin?"
+            aria-label="Recipient's username"
+            aria-describedby="basic-addon2"
+            />
+            <DropdownButton
+                alignRight
+                title={dropdownSelect}
+                id="Dropdown-search-menu"
+                onSelect={handleDropdownSelect}>
+                    <Dropdown.Item eventKey="GPU">GPUs</Dropdown.Item>
+                    <Dropdown.Item eventKey="Consoles">Consoles</Dropdown.Item>
+            </DropdownButton>
+            <Button variant="outline-secondary" id="button-addon2"
+            onClick={() => handleButtonClick(searchParam)} >
+            Search
+            </Button>
+        </InputGroup>
+        
+    </QuartContainer>
+    <hr />
+    {renderSearchResults()}    
+    </div>
+    
+    )
+};
+
+export default Home;
+
+const QuartContainer = styled.div`
+display: flex;
+justify-content: center;
+margin: 30px;
+max-width: 25%;
+`
+
+const FullContainer = styled.div`
+display: flex;
+justify-content: center;
+margin: 30px;
+max-width: 100%;
+`
+
+
