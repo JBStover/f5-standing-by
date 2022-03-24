@@ -9,16 +9,12 @@ const DEFAULT_STATE = {
 
 const userReducer = function(state = DEFAULT_STATE, action) {
   switch(action.type) {
-    case USER_LOGIN:      
-        console.log({ ...action.payload.data, isLoggedIn: true }) 
-       // debugger  
+    case USER_LOGIN:          
       return { ...action.payload.data, isLoggedIn: true }
-
-      /*
-    case USER_LOGOUT:
-      console.log('The user is logged out!' + action.payload);
+      
+    case USER_LOGOUT:      
       return {...state, DEFAULT_STATE, isLoggedIn: false}
-    */
+    
     default:
       return state;
   }

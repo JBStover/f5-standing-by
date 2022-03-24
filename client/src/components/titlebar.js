@@ -1,7 +1,20 @@
 import React from 'react';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { LinkContainer, } from 'react-router-bootstrap';
+
+import { useDispatch, useSelector } from 'react-redux'; 
+import { userLogout } from '../actions';
+
+
+
 function TitleBar() {
+  const dispatch = useDispatch();
+
+  async function handleButtonClick () {
+    event.preventDefault();
+    await dispatch(userLogout());
+  };
+
 
   return (
     <Navbar bg="dark" expand="lg" variant="dark">
@@ -15,16 +28,12 @@ function TitleBar() {
         </LinkContainer>
         <LinkContainer to="/updates">
         <Nav.Link>Updates</Nav.Link>
-        </LinkContainer>
-        <LinkContainer to="/login">
-        <Nav.Link>Login</Nav.Link>
-        </LinkContainer>
+        </LinkContainer>        
         <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-          <NavDropdown.Item href="#action/3.1">Login</NavDropdown.Item>
-          <NavDropdown.Item href="#action/3.2">PlaceHolder 1</NavDropdown.Item>
-          <NavDropdown.Item href="#action/3.3">PlaceHolder 2</NavDropdown.Item>
+          <LinkContainer to="/login"><NavDropdown.Item href="#action/3.1">Login</NavDropdown.Item></LinkContainer>
+          <LinkContainer to="/about"><NavDropdown.Item href="#action/3.2">About</NavDropdown.Item></LinkContainer>          
           <NavDropdown.Divider />
-          <NavDropdown.Item href="#action/3.4">Logout</NavDropdown.Item>
+          <NavDropdown.Item href="#action/3.4" onClick={() => handleButtonClick()}>Logout</NavDropdown.Item>
         </NavDropdown>
         </Nav>
         </Navbar.Collapse>

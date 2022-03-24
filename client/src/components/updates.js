@@ -5,7 +5,11 @@ function Updates() {
     return (
     <div>
         <h1>Week of 21Mar22: F5 is LIVE!!</h1>
-        <h2>Patch 1.2 (In development) TensorFlow Machine Learning to help you predict when to make a purchase.</h2>
+        <h2>Patch 1.1 (In development) 
+        <ul>TensorFlow Machine Learning to help you predict when to make a purchase.</ul>
+        <ul>Clear Button for chart/store data</ul>
+        </h2>
+        <h3></h3>
     </div>
     );
 };

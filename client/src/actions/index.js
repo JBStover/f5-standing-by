@@ -28,14 +28,13 @@ export async function userLogin (usernameTest, passwordTest) {
   };
 };
 
-/*
-export async function userLogout (user) {
+
+export async function userLogout () {
   return {
-    type: USER_LOGOUT, 
-    payload: user
+    type: USER_LOGOUT    
   };
 };
-*/
+
 
 
 
