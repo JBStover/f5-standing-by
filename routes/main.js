@@ -128,15 +128,15 @@ router.get("/scrapeConsoles/", async (req, res, next) => {
     // Scrape Xbox Series X
     await page.goto(urlXboxSeriesX);  // Open URL for Xbox Series X
 
-    const [el7] = await page.$x('//*[@id="ProductViewSticky"]/div/div[4]/div/div/div[2]/div/img'); //Image URL for Xbox Series X
+    const [el7] = await page.$x('//*[@id="ProductViewSticky"]/div/div[4]/div/div/div[1]/div/img'); //Image URL for Xbox Series X
     const srcXboxX = await el7.getProperty('src');
     const imageURLXboxX =  await srcXboxX.jsonValue();
 
-    const [el8] = await page.$x('//*[@id="app"]/div[4]/div[1]/div[2]/div/div[2]/div[1]/div[5]/h1'); //Name for Xbox Series X
+    const [el8] = await page.$x('//*[@id="app"]/div[4]/div/div/div/div[2]/div[1]/div[5]/h1'); //Name for Xbox Series X
     const txtNameXboxX = await el8.getProperty('textContent');
     const titleXboxX =  await txtNameXboxX.jsonValue();
     
-    const [el9] = await page.$x('//*[@id="app"]/div[4]/div[1]/div[2]/div/div[1]/div[1]/div[2]/div[3]/ul/li[3]/strong'); //Price for Xbox Series X
+    const [el9] = await page.$x('//*[@id="app"]/div[4]/div/div/div/div[1]/div[1]/div[2]/div[3]/ul/li[3]/strong'); //Price for Xbox Series X
     const txtPriceXboxX = await el9.getProperty('textContent');
     const priceXboxX =  await txtPriceXboxX.jsonValue();      
     
@@ -151,11 +151,11 @@ router.get("/scrapeConsoles/", async (req, res, next) => {
     const srcXboxS = await el10.getProperty('src');
     const imageURLXboxS =  await srcXboxS.jsonValue();
 
-    const [el11] = await page.$x('//*[@id="app"]/div[4]/div[1]/div[2]/div/div[2]/div[1]/div[5]/h1'); //Name for Xbox Series S
+    const [el11] = await page.$x('//*[@id="app"]/div[4]/div/div[2]/div/div[2]/div[1]/div[5]/h1'); //Name for Xbox Series S
     const txtNameXboxS = await el11.getProperty('textContent');
     const titleXboxS =  await txtNameXboxS.jsonValue();
     
-    const [el12] = await page.$x('//*[@id="app"]/div[4]/div[1]/div[2]/div/div[1]/div[1]/div[1]/div[2]/ul/li[3]/strong'); //Price for Xbox Series S
+    const [el12] = await page.$x('//*[@id="app"]/div[4]/div/div[2]/div/div[1]/div[1]/div[1]/div[2]/ul/li[3]/strong'); //Price for Xbox Series S
     const txtPriceXboxS = await el12.getProperty('textContent');
     const priceXboxS =  await txtPriceXboxS.jsonValue();      
     

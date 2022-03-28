@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import { React, useEffect, useState } from 'react';
-import { getConsoles, getGPUs } from '../actions';
+import { clearConsoles, clearGPUs, getConsoles, getGPUs } from '../actions';
 import { Chart, registerables } from 'chart.js'
 Chart.register(...registerables);
 
@@ -22,17 +22,18 @@ const Home = () => {
     const dispatch = useDispatch();    
 
     useEffect(() => {  
-        setDropdownSelect("No selection")
-        //calculateChartData(searchResults);                                 
+        setDropdownSelect("No selection")                                       
     }, [getGPUs, dispatch, searchParam]);
 
     async function handleButtonClick (data) {     
         console.log(dropdownSelect);
-        if (dropdownSelect === "GPU") {            
+        if (dropdownSelect === "GPU") { 
+            await dispatch(clearConsoles());           
             await dispatch(getGPUs(data)); 
         }
         if (dropdownSelect === "Consoles") {
             console.log("You searched for consoles");
+            await dispatch(clearGPUs());
             await dispatch(getConsoles(data));
         }
         if (dropdownSelect === "No selection") {
@@ -81,54 +82,100 @@ const Home = () => {
     // Render results/tables 
     function renderSearchResults() {
         
-        if (!_.isEmpty(gpuResults)) {
-         return (
-        <div>
-        <h3>GPU Results</h3>
-        <FullContainer>
-        <Row className = 'mb-5 mt-5' md={5}>            
-            {gpuResults.slice(0, 5).map((results) =>              
-            <Col>
-            <Card style={{ width: '18rem' }}>                        
-                <Card.Body>
-                    <Card.Title>{results.title}</Card.Title>
-                    <Card.Subtitle>Price: ${results.price}</Card.Subtitle>
-                    <Card.Text>Date: {results.date}</Card.Text>                            
-                </Card.Body>
-                <Card.Img variant="top" src={results.imageURL} />
-            </Card>  
-            </Col>         
-          
-             )}                             
-        </Row>
-        </FullContainer>
-        <h3>Console Results</h3>
-        <FullContainer>
-        <Row className = 'mb-5 mt-5' md={5}>            
-            {consoleResults.slice(0, 5).map((results) =>              
-            <Col>
-            <Card style={{ width: '18rem' }}>                        
-                <Card.Body>
-                    <Card.Title>{results.title}</Card.Title>
-                    <Card.Subtitle>Price: ${results.price}</Card.Subtitle>
-                    <Card.Text>Date: {results.date}</Card.Text>                            
-                </Card.Body>
-                <Card.Img variant="top" src={results.imageURL} />
-            </Card>  
-            </Col>         
-          
-             )}                             
-        </Row>
-        </FullContainer>                
-        </div>
-        )   
+        if (!_.isEmpty(gpuResults) && !_.isEmpty(consoleResults)) {
+            return (
+                <div>
+                <h3>GPU Results</h3>
+                <FullContainer>
+                <Row className = 'mb-5 mt-5' md={5}>            
+                    {gpuResults.slice(0, 5).map((results) =>              
+                    <Col>
+                    <Card style={{ width: '18rem' }}>                        
+                        <Card.Body>
+                            <Card.Title>{results.title}</Card.Title>
+                            <Card.Subtitle>Price: ${results.price}</Card.Subtitle>
+                            <Card.Text>Date: {results.date}</Card.Text>                            
+                        </Card.Body>
+                        <Card.Img variant="top" src={results.imageURL} />
+                    </Card>  
+                    </Col>         
+                  
+                     )}                             
+                </Row>
+                </FullContainer>
+                <h3>Console Results</h3>
+                <FullContainer>
+                <Row className = 'mb-5 mt-5' md={5}>            
+                    {consoleResults.slice(0, 5).map((results) =>              
+                    <Col>
+                    <Card style={{ width: '18rem' }}>                        
+                        <Card.Body>
+                            <Card.Title>{results.title}</Card.Title>
+                            <Card.Subtitle>Price: ${results.price}</Card.Subtitle>
+                            <Card.Text>Date: {results.date}</Card.Text>                            
+                        </Card.Body>
+                        <Card.Img variant="top" src={results.imageURL} />
+                    </Card>  
+                    </Col>         
+                  
+                     )}                             
+                </Row>
+                </FullContainer>                
+                </div>
+                )   
         };
-        return <div>No Search Entered</div>       
-    };
-
-
-    //function renderChart(xValues, yValues) {};
-    
+        
+        if (_.isEmpty(gpuResults) && !_.isEmpty(consoleResults)) {
+            return (
+                <div>
+                    <h3>Console Results</h3>
+                <FullContainer>
+                <Row className = 'mb-5 mt-5' md={5}>            
+                    {consoleResults.slice(0, 5).map((results) =>              
+                    <Col>
+                    <Card style={{ width: '18rem' }}>                        
+                        <Card.Body>
+                            <Card.Title>{results.title}</Card.Title>
+                            <Card.Subtitle>Price: ${results.price}</Card.Subtitle>
+                            <Card.Text>Date: {results.date}</Card.Text>                            
+                        </Card.Body>
+                        <Card.Img variant="top" src={results.imageURL} />
+                    </Card>  
+                    </Col>         
+                  
+                     )}                             
+                </Row>
+                </FullContainer> 
+                </div>
+            )
+        } 
+        if (_.isEmpty(consoleResults) && !_.isEmpty(gpuResults)) {
+            return (
+                <div>
+                <h3>GPU Results</h3>
+                <FullContainer>
+                <Row className = 'mb-5 mt-5' md={5}>            
+                    {gpuResults.slice(0, 5).map((results) =>              
+                    <Col>
+                    <Card style={{ width: '18rem' }}>                        
+                        <Card.Body>
+                            <Card.Title>{results.title}</Card.Title>
+                            <Card.Subtitle>Price: ${results.price}</Card.Subtitle>
+                            <Card.Text>Date: {results.date}</Card.Text>                            
+                        </Card.Body>
+                        <Card.Img variant="top" src={results.imageURL} />
+                    </Card>  
+                    </Col>         
+                  
+                     )}                             
+                </Row>
+                </FullContainer>
+                </div>
+            )
+        } else {
+            return <div>No Search Entered</div> 
+        }        
+    };     
 
     return (
     <div>

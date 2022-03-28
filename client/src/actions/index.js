@@ -1,6 +1,6 @@
 import { getByTitle } from '@testing-library/react';
 import axios from 'axios';
-import { GET_CONSOLES } from './types';
+import { CLEAR_CONSOLES, CLEAR_GPUS, GET_CONSOLES } from './types';
 import { GET_GPUS } from './types';
 import { USER_LOGIN } from './types';
 import { USER_LOGOUT } from './types';
@@ -35,6 +35,17 @@ export async function userLogout () {
   };
 };
 
+export async function clearConsoles () {
+  return {
+    type: CLEAR_CONSOLES
+  };
+};
+
+export async function clearGPUs () {
+  return {
+    type: CLEAR_GPUS
+  };
+};
 
 
 

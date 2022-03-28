@@ -7,13 +7,17 @@ import { MDBContainer } from 'mdbreact';
 const Chart = () => {
     const gpuResults = useSelector(state => state.gpus); 
     const consoleResults = useSelector(state => state.consoles);    
-    let gpuStrToNum = 0;
-    let consoleStrToNum = 0;
+    let strToNum = 0;
+    //let consoleStrToNum = 0;
 
-    useEffect(() => {  
-        calculateGPUChart(gpuResults); 
-        calculateConsoleChart(consoleResults);
-    }, [calculateGPUChart, calculateConsoleChart, gpuResults, consoleResults]);
+    useEffect(() => {          
+        if (gpuResults.length != 0) {
+            calculateChart(gpuResults); 
+        } else if (consoleResults.length != 0) {
+            calculateChart(consoleResults);
+        };        
+        
+    }, [calculateChart, gpuResults, consoleResults]);
 
     const chartData = {
         labels: ['PlaceHolder1', 'PlaceHolder2', 'PlaceHolder3'],
@@ -38,53 +42,33 @@ const Chart = () => {
               pointRadius: 1,
               pointHitRadius: 10,
               data: [0, 0, 0]
-            },    
-            {
-                label: "Console Price Trend",
-                fill: true,
-                lineTension: 0.3,
-                backgroundColor: "rgba(184, 185, 210, .3)",
-                borderColor: "rgb(35, 26, 136)",
-                borderCapStyle: "butt",
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: "miter",
-                pointBorderColor: "rgb(35, 26, 136)",
-                pointBackgroundColor: "rgb(255, 255, 255)",
-                pointBorderWidth: 10,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: "rgb(0, 0, 0)",
-                pointHoverBorderColor: "rgba(220, 220, 220, 1)",
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                data: [0, 0, 0]
-              },                    
+            },                
           ]
     };    
 
-    function calculateGPUChart (info) {
-        const gpuResultsY = [];
-        const gpuResultsX = [];        
+    function calculateChart (info) {
+        const resultsY = [];
+        const resultsX = [];        
 
         if (info.length != 0) {
             for (let i = 0; i < info.length; i++) { 
-                gpuResultsX.push(info[i].date);           
-                gpuStrToNum = parseFloat(info[i].price.replace(',', ''));           
-                if (gpuStrToNum != null) {
-                    gpuResultsY.push(gpuStrToNum);                
+                resultsX.push(info[i].date);           
+                strToNum = parseFloat(info[i].price.replace(',', ''));           
+                if (strToNum != null) {
+                    resultsY.push(strToNum);                
                 };            
             }; 
 
-            chartData.labels = gpuResultsX;
-            chartData.datasets[0].data = gpuResultsY;   
+            chartData.labels = resultsX;
+            chartData.datasets[0].data = resultsY;   
         } else {
-            chartData.labels = ['PlaceHolder1', 'PlaceHolder2', 'PlaceHolder3']
-            chartData.datasets[0].data = [0, 0, 0]; 
+            chartData.labels = ['PlaceHolder1', 'PlaceHolder2', 'PlaceHolder3', 'PlaceHolder4', 'PlaceHolder5']
+            chartData.datasets[0].data = [0, 0, 0, 0, 0]; 
         }  
 
     };
 
+    /*
     function calculateConsoleChart (info) {
         const consoleResultsY = [];
         const consoleResultsX = [];        
@@ -105,6 +89,7 @@ const Chart = () => {
             chartData.datasets[1].data = [0, 0, 0]; 
         }       
     };
+    */
     
     return (
     <MDBContainer>
