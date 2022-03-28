@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');
+//const puppeteer = require('puppeteer');
 const GPU = require('../models/gpu');
 const Console = require('../models/console');
 const User = require('../models/user');
@@ -6,7 +6,7 @@ const User = require('../models/user');
 
 const router = require("express").Router();
 
-
+/*
 router.get("/scrapeGPUs/", async (req, res, next) => {
     const urlFor3080 = 'https://www.newegg.com/asus-geforce-rtx-3080-tuf-rtx3080-o10g-v2-gaming/p/N82E16814126525?Description=3080&cm_re=3080-_-14-126-525-_-Product&quicklink=true';
     const urlFor3070 = 'https://www.newegg.com/msi-geforce-rtx-3070-rtx-3070-ventus-2x-8g-oc-lhr/p/N82E16814137671?Description=3070&cm_re=3070-_-14-137-671-_-Product&quicklink=true';
@@ -166,6 +166,7 @@ router.get("/scrapeConsoles/", async (req, res, next) => {
     browser.close();
     res.send(scrapedConsoles);
 });
+*/
 
 router.get("/generate-users", (req, res, next) => {
     let userOne = new User();
