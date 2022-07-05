@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import { React, useEffect, useState } from 'react';
-import { clearConsoles, clearGPUs, getConsoles, getGPUs } from '../actions';
+import { getGPUs, clearGPUs } from '../slices/gpuSlice';
+import { getConsoles, clearConsoles } from '../slices/consoleSlice';
 import { Chart, registerables } from 'chart.js'
 Chart.register(...registerables);
 
@@ -45,40 +46,7 @@ const Home = () => {
         setDropdownSelect(e);
     };
 
-    // Tensorflow Code
-    /*
-    const [modelState, setModelState] = useState({  //TensorFlow
-        model: null,
-        trained: false,
-        predictedValue: 'Set up Table',
-        valueToPredict: 1,
-    });    
-
-    const trainModel = async () => {
-        let xVals = [];
-        let yVals = [];        
-        
-        const model = tf.sequential();
-        model.add(tf.layers.dense({units: 1, inputShape: [1]}));
-
-        model.compile({loss: 'meanSquaredError', optimizer: 'sgd'});
-
-        //Generate Data
-        const xs = tf.tensor2d(xVals, [xVals.length, 1]);
-        const ys = tf.tensor2d(yVals, [yVals.length, 1]);
-
-        await model.fit(xs, ys, {epochs: 250});
-
-        document.getElementById('micro-out-div').innerText = 
-            model.predict(tf.tensor2d([20], [1, 1])).dataSync();
-
-    };
-
-    const handlePricePredict = async () => {  //Tensorflow
-
-    }
-    */
-
+    
     // Render results/tables 
     function renderSearchResults() {
         

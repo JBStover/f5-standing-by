@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux'; 
 import { React, useEffect, useState } from 'react';
-import { userLogin } from '../actions';
+import {userLogin, userLogout} from '../slices/userSlice';
+
 
 
 const Login = () => {

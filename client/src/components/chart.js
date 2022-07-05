@@ -5,8 +5,8 @@ import {  Line } from 'react-chartjs-2';
 import { MDBContainer } from 'mdbreact';
 
 const Chart = () => {
-    const gpuResults = useSelector(state => state.gpus); 
-    const consoleResults = useSelector(state => state.consoles);    
+    const gpuResults = useSelector(store => store.gpus); 
+    const consoleResults = useSelector(store => store.consoles);    
     let strToNum = 0;
     //let consoleStrToNum = 0;
 
