@@ -1,4 +1,4 @@
-//const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer');
 const GPU = require('../models/gpu');
 const Console = require('../models/console');
 const User = require('../models/user');
@@ -6,7 +6,7 @@ const User = require('../models/user');
 
 const router = require("express").Router();
 
-/*
+
 router.get("/scrapeGPUs/", async (req, res, next) => {
     const urlFor3080 = 'https://www.newegg.com/asus-geforce-rtx-3080-tuf-rtx3080-o10g-v2-gaming/p/N82E16814126525?Description=3080&cm_re=3080-_-14-126-525-_-Product&quicklink=true';
     const urlFor3070 = 'https://www.newegg.com/msi-geforce-rtx-3070-rtx-3070-ventus-2x-8g-oc-lhr/p/N82E16814137671?Description=3070&cm_re=3070-_-14-137-671-_-Product&quicklink=true';
@@ -147,15 +147,15 @@ router.get("/scrapeConsoles/", async (req, res, next) => {
     // Scrape Xbox Series S
     await page.goto(urlXboxSeriesS);  // Open URL for Xbox Series S
 
-    const [el10] = await page.$x('//*[@id="ProductViewSticky"]/div/div[4]/div/div/div[2]/div/img'); //Image URL for Xbox Series S
+    const [el10] = await page.$x('//*[@id="ProductViewSticky"]/div/div[4]/div/div/div[1]/div/img'); //Image URL for Xbox Series S
     const srcXboxS = await el10.getProperty('src');
     const imageURLXboxS =  await srcXboxS.jsonValue();
 
-    const [el11] = await page.$x('//*[@id="app"]/div[4]/div/div[2]/div/div[2]/div[1]/div[5]/h1'); //Name for Xbox Series S
+    const [el11] = await page.$x('//*[@id="app"]/div[4]/div/div/div/div[2]/div[1]/div[5]/h1'); //Name for Xbox Series S
     const txtNameXboxS = await el11.getProperty('textContent');
     const titleXboxS =  await txtNameXboxS.jsonValue();
     
-    const [el12] = await page.$x('//*[@id="app"]/div[4]/div/div[2]/div/div[1]/div[1]/div[1]/div[2]/ul/li[3]/strong'); //Price for Xbox Series S
+    const [el12] = await page.$x('//*[@id="app"]/div[4]/div/div/div/div[1]/div[1]/div[2]/div[2]/ul/li[3]/strong'); //Price for Xbox Series S
     const txtPriceXboxS = await el12.getProperty('textContent');
     const priceXboxS =  await txtPriceXboxS.jsonValue();      
     
@@ -166,7 +166,7 @@ router.get("/scrapeConsoles/", async (req, res, next) => {
     browser.close();
     res.send(scrapedConsoles);
 });
-*/
+
 
 router.get("/generate-users", (req, res, next) => {
     let userOne = new User();
