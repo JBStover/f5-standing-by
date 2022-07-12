@@ -5,8 +5,8 @@ import {  Line } from 'react-chartjs-2';
 import { MDBContainer } from 'mdbreact';
 
 const Chart = () => {
-    const gpuResults = useSelector(store => store.gpus); 
-    const consoleResults = useSelector(store => store.consoles);    
+    const gpuResults = useSelector(store => store.gpus.gpus); 
+    const consoleResults = useSelector(store => store.consoles.consoles);    
     let strToNum = 0;
     //let consoleStrToNum = 0;
 
@@ -23,7 +23,7 @@ const Chart = () => {
         labels: ['PlaceHolder1', 'PlaceHolder2', 'PlaceHolder3'],
           datasets: [
             {
-              label: "GPU Price Trend",
+              label: "Price Trend",
               fill: true,
               lineTension: 0.3,
               backgroundColor: "rgba(225, 204,230, .3)",

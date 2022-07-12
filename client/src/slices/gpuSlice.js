@@ -8,14 +8,13 @@ const initialState = {
     status: null
 };
 
-//router.get("/character/:firstName/:lastName"
+
 
 export const getGPUs = createAsyncThunk('gpu/getGPUs', async (searchedGPU) => {
         
 
     try {        
-        const response = await axios.get(`${ROOT_URL}/getGPUs/${searchedGPU}`);
-        console.log(response)
+        const response = await axios.get(`${ROOT_URL}/getGPUs/${searchedGPU}`);        
         return response.data;
     } catch (err) {
         return err.message;
@@ -24,7 +23,7 @@ export const getGPUs = createAsyncThunk('gpu/getGPUs', async (searchedGPU) => {
 
 export const clearGPUs = createAsyncThunk('gpu/clearGPUs', async () => {
     try {
-        return {...state, initialState, status: null};
+        return initialState;
     } catch (err) {
         return err.message;
     }
@@ -42,7 +41,7 @@ const gpuSlice = createSlice({
             })
             .addCase(getGPUs.fulfilled, (state, action) => {
                 state.status = 'action successful'
-                state.books = action.payload;
+                state.gpus = action.payload;
                 
             })
             .addCase(getGPUs.rejected, (state, action) => {

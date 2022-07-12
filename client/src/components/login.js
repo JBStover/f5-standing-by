@@ -16,7 +16,12 @@ const Login = () => {
     
     async function handleButtonClick (name, pw) {            
         event.preventDefault();
-        await dispatch(userLogin(name, pw));                                  
+        console.log(name, pw)
+        const credentials = {
+            username: name,
+            password: pw
+        }
+        await dispatch(userLogin(credentials));                                  
     };   
 
 

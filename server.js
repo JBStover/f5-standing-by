@@ -46,11 +46,8 @@ app.use((req, res, next) => {
 
 
 const mainRoutes = require("./routes/main");
-//var authRouter = require('./routes/auth');
 
 app.use(mainRoutes);
-//app.use('/', authRouter);
-
 
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, '../client/build')));
@@ -66,19 +63,3 @@ app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
 
-/*
-app.use(passport.initialize());
-
-passport.use(
-  "login",
-  new LocalStrategy((username, password, done) => {
-    const authenticated = username === "Beth" && password === "GIGABYTE";
-
-    if (authenticated) {
-      return done(null, { myUser: "user1", myID: 1234 });
-    } else {
-      return done(null, false);
-    }
-  })
-);
-*/

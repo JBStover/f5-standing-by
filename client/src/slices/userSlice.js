@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+
 const ROOT_URL = 'http://localhost:7000';
 
 const initialState = {
@@ -10,13 +11,8 @@ const initialState = {
     status: null
 };
 
-export const userLogin = createAsyncThunk('user/userLogin', async (username, password) => {        
-    const credentials = {
-        username: username,
-        password: password
-    };
-
-    console.log(credentials);
+export const userLogin = createAsyncThunk('user/userLogin', async (credentials) => { 
+        
     try {        
         const response = await axios.post(`${ROOT_URL}/login`, credentials);
         console.log(response)
@@ -26,8 +22,9 @@ export const userLogin = createAsyncThunk('user/userLogin', async (username, pas
     }
 });
 
+
 export const userLogout = createAsyncThunk('user/userLogout', async () => {
-    return {...state, initialState, isLoggedIn: false};
+    return initialState;
 });
 
 
@@ -40,15 +37,19 @@ const userSlice = createSlice({
         builder
             .addCase(userLogin.pending, (state, action) => {
                 state.status = 'loading'
+                console.log(state.status)
             })
             .addCase(userLogin.fulfilled, (state, action) => {
                 state.status = 'action successful'
-                state.books = action.payload;
+                state._id = action.payload._id;
+                state.username = action.payload.username;
+                state.isLoggedIn = true;
                 
             })
             .addCase(userLogin.rejected, (state, action) => {
-                state.status = 'action failed'   
-                return action.payload;
+                state.status = 'action failed' 
+                console.log(state.status)
+                
             })
             
     }

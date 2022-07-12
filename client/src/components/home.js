@@ -15,19 +15,22 @@ Chart.register(...registerables);
 
 const Home = () => {
 
-    const gpuResults = useSelector(state => state.gpus);     
-    const consoleResults = useSelector(state => state.consoles);      
+    const gpuResults = useSelector(state => state.gpus.gpus);     
+    const consoleResults = useSelector(state => state.consoles.consoles);      
      
     const [searchParam, setSearchParam] = useState("");    
     const [dropdownSelect, setDropdownSelect] = useState("");
     const dispatch = useDispatch();    
 
-    useEffect(() => {  
-        setDropdownSelect("No selection")                                       
-    }, [getGPUs, dispatch, searchParam]);
+    console.log(gpuResults);
+    console.log(consoleResults);
 
-    async function handleButtonClick (data) {     
-        console.log(dropdownSelect);
+    useEffect(() => {  
+        setDropdownSelect("No selection") 
+                                            
+    }, [gpuResults, consoleResults, dispatch]);
+
+    async function handleButtonClick (data) {             
         if (dropdownSelect === "GPU") { 
             await dispatch(clearConsoles());           
             await dispatch(getGPUs(data)); 
@@ -118,6 +121,7 @@ const Home = () => {
             )
         } 
         if (_.isEmpty(consoleResults) && !_.isEmpty(gpuResults)) {
+            console.log(gpuResults)
             return (
                 <div>
                 <h3>GPU Results</h3>

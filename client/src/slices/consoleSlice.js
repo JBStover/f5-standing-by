@@ -22,7 +22,7 @@ export const getConsoles = createAsyncThunk('console/getConsoles', async (search
 
 export const clearConsoles = createAsyncThunk('console/clearConsoles', async () => {
     try {
-        return {...state, initialState, status: null};
+        return initialState;
     } catch (err) {
         return err.message;
     }
@@ -40,7 +40,8 @@ const consoleSlice = createSlice({
             })
             .addCase(getConsoles.fulfilled, (state, action) => {
                 state.status = 'action successful'
-                state.books = action.payload;
+                //console.log(action.payload)
+                state.consoles = action.payload;
                 
             })
             .addCase(getConsoles.rejected, (state, action) => {
