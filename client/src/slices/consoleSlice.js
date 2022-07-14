@@ -4,8 +4,8 @@ import axios from "axios";
 const ROOT_URL = 'http://localhost:7000';
 
 const initialState = {
-    consoles: [],
-    status: null
+    searchedConsoles: [],
+    status: 'Idle'
 };
 
 //router.get("/character/:firstName/:lastName"
@@ -13,7 +13,6 @@ const initialState = {
 export const getConsoles = createAsyncThunk('console/getConsoles', async (searchedConsole) => {
     try {        
         const response = await axios.get(`${ROOT_URL}/getConsoles/${searchedConsole}`);
-        console.log(response)
         return response.data;
     } catch (err) {
         return err.message;
@@ -39,9 +38,8 @@ const consoleSlice = createSlice({
                 state.status = 'loading'
             })
             .addCase(getConsoles.fulfilled, (state, action) => {
-                state.status = 'action successful'
-                //console.log(action.payload)
-                state.consoles = action.payload;
+                state.status = 'action successful'                
+                state.searchedConsoles = action.payload;
                 
             })
             .addCase(getConsoles.rejected, (state, action) => {
@@ -52,6 +50,8 @@ const consoleSlice = createSlice({
     }
 })
 
+export const selectAllConsoleResults = (state) => state.consoles.searchedConsoles;
+export const getConsoleStatus = (state) => state.consoles.status;
 
 
 export default consoleSlice;

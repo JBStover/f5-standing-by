@@ -3,17 +3,22 @@ import _ from 'lodash';
 import { React, useEffect, useState } from 'react';
 import {  Line } from 'react-chartjs-2';
 import { MDBContainer } from 'mdbreact';
+import { selectAllGPUResults, getGPUStatus } from '../slices/gpuSlice';
+import { selectAllConsoleResults, getConsoleStatus } from '../slices/consoleSlice';
 
 const Chart = () => {
-    const gpuResults = useSelector(store => store.gpus.gpus); 
-    const consoleResults = useSelector(store => store.consoles.consoles);    
+    const gpuResults = useSelector(selectAllGPUResults); 
+    const gpuStatus = useSelector(getGPUStatus);
+    const consoleResults = useSelector(selectAllConsoleResults);
+    const consoleStatus = useSelector(getConsoleStatus);    
     let strToNum = 0;
     //let consoleStrToNum = 0;
 
+    console.log(gpuResults)
     useEffect(() => {          
-        if (gpuResults.length != 0) {
+        if (gpuStatus === 'action successful') {
             calculateChart(gpuResults); 
-        } else if (consoleResults.length != 0) {
+        } else if (consoleStatus ==='action successful') {
             calculateChart(consoleResults);
         };        
         
