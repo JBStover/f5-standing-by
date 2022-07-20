@@ -5,7 +5,7 @@ const ROOT_URL = 'http://localhost:7000';
 
 const initialState = {
     searchedConsoles: [],
-    status: 'Idle'
+    status: 'idle'
 };
 
 //router.get("/character/:firstName/:lastName"
@@ -19,6 +19,8 @@ export const getConsoles = createAsyncThunk('console/getConsoles', async (search
     }
 });
 
+
+// Currently not being used
 export const clearConsoles = createAsyncThunk('console/clearConsoles', async () => {
     try {
         return initialState;
@@ -38,8 +40,9 @@ const consoleSlice = createSlice({
                 state.status = 'loading'
             })
             .addCase(getConsoles.fulfilled, (state, action) => {
-                state.status = 'action successful'                
-                state.searchedConsoles = action.payload;
+                state.status = 'succeeded' 
+                state.searchedConsoles = [];               
+                state.searchedConsoles.push(...action.payload);
                 
             })
             .addCase(getConsoles.rejected, (state, action) => {

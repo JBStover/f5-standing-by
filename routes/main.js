@@ -183,7 +183,7 @@ router.post("/login", (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;    
 
-    console.log("Made it to the route")
+    
     User.findOne({ username: username })
     .exec((err, user) => {
         if (err) return next(err);

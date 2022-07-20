@@ -3,105 +3,58 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import { React, useEffect, useState } from 'react';
-import { getGPUs, clearGPUs, getGPUStatus, selectAllGPUResults } from '../slices/gpuSlice';
-import { getConsoles, clearConsoles, getConsoleStatus, selectAllConsoleResults } from '../slices/consoleSlice';
+import { clearGPUs, getGPUs } from '../slices/gpuSlice';
+import { getConsoles, clearConsoles } from '../slices/consoleSlice';
 import { Chart, registerables } from 'chart.js'
+import GpuResults from './gpuResults';
+import ConsoleResults from './consoleResults';
+import { render } from 'react-dom';
+
+
 Chart.register(...registerables);
 
 
 const Home = () => {
-    const dispatch = useDispatch();   
-    const gpuResults = useSelector(selectAllGPUResults); 
-    const gpuStatus = useSelector(getGPUStatus);    
-    const consoleResults = useSelector(selectAllConsoleResults);
-    const consoleStatus = useSelector(getConsoleStatus);      
-     
+    const dispatch = useDispatch();        
+    const gpuStatus = useSelector(state => state.gpus.status);       
+    const consoleStatus = useSelector(state => state.consoles.status);      
     const [searchParam, setSearchParam] = useState("");    
     const [dropdownSelect, setDropdownSelect] = useState(""); 
 
-   
-    
-
     useEffect(() => {  
        setDropdownSelect("No selection") 
-       renderSearchResults()                                   
-    }, [dispatch, getGPUs, getConsoles,]);
+                                            
+    }, [consoleStatus, gpuStatus, dispatch]);
 
-    const handleButtonClick = async (data) => {             
+    const handleButtonClick = (data) => {             
         if (dropdownSelect === "GPU") { 
-            //await dispatch(clearConsoles());           
-            await dispatch(getGPUs(data)).unwrap(); 
+            dispatch(getGPUs(data));
         }
-        if (dropdownSelect === "Consoles") {            
-            //await dispatch(clearGPUs());
-            await dispatch(getConsoles(data)).unwrap();
+        if (dropdownSelect === "Consoles") {
+            dispatch(getConsoles(data));
         }
         if (dropdownSelect === "No selection") {
-            console.log("Make a selection before searching database");
+            alert("Make a selection before searching database");
         };                                       
     };   
 
     async function handleDropdownSelect (e) {
         setDropdownSelect(e);
-    };
+    };   
 
-    
-    // Render results/tables 
-    const renderSearchResults =  () => {
-        console.log(consoleStatus);
-        console.log(gpuStatus);
-
-        if (gpuStatus === 'Idle' && consoleStatus === 'action successful') {
-            return (
-                <div>
-                    <h3>Console Results</h3>
-                <FullContainer>
-                <Row className = 'mb-5 mt-5' md={5}>            
-                    {consoleResults.slice(0, 5).map((results) =>              
-                    <Col>
-                    <Card style={{ width: '18rem' }}>                        
-                        <Card.Body>
-                            <Card.Title>{results.title}</Card.Title>
-                            <Card.Subtitle>Price: ${results.price}</Card.Subtitle>
-                            <Card.Text>Date: {results.date}</Card.Text>                            
-                        </Card.Body>
-                        <Card.Img variant="top" src={results.imageURL} />
-                    </Card>  
-                    </Col>         
-                  
-                     )}                             
-                </Row>
-                </FullContainer> 
-                </div>
-            )
-        } 
-        if (gpuStatus === 'action successful' && consoleStatus === 'Idle') {
-            return (
-                <div>
-                <h3>GPU Results</h3>
-                <FullContainer>
-                <Row className = 'mb-5 mt-5' md={5}>            
-                    {gpuResults.slice(0, 5).map((results) =>              
-                    <Col>
-                    <Card style={{ width: '18rem' }}>                        
-                        <Card.Body>
-                            <Card.Title>{results.title}</Card.Title>
-                            <Card.Subtitle>Price: ${results.price}</Card.Subtitle>
-                            <Card.Text>Date: {results.date}</Card.Text>                            
-                        </Card.Body>
-                        <Card.Img variant="top" src={results.imageURL} />
-                    </Card>  
-                    </Col>         
-                  
-                     )}                             
-                </Row>
-                </FullContainer>
-                </div>
-            )
-        } else {
-            return <div>No Search Entered</div> 
-        }        
-    };     
+    function renderSearchResults () {
+        return (
+        <div>
+        {gpuStatus === 'succeeded' 
+            ? <GpuResults/>
+            : <h1>No GPU Results to display.</h1>}  
+        <hr />
+        {consoleStatus === 'succeeded'
+            ? <ConsoleResults/>
+            : <h1>No Console Results to display.</h1>}
+        </div>
+        )      
+    }
 
     return (
     <div>
@@ -129,7 +82,7 @@ const Home = () => {
         
     </QuartContainer>
     <hr />
-    {renderSearchResults()}    
+    {renderSearchResults()}
     </div>
     
     )

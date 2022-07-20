@@ -9,22 +9,23 @@ const Login = () => {
     const [userName, setUserName] = useState("");
     const [password, setPassWord] = useState("");
     const dispatch = useDispatch();
+    const userStatus = useSelector(state => state.users.status)
 
     
     useEffect(() => {                                          
     }, [userName, password, userLogin, dispatch]);
     
-    async function handleButtonClick (name, pw) {            
+    function handleButtonClick (name, pw) {            
         event.preventDefault();
         console.log(name, pw)
         const credentials = {
             username: name,
             password: pw
         }
-        await dispatch(userLogin(credentials));                                  
+        dispatch(userLogin(credentials));                                  
     };   
 
-
+    
 
 return (
     <QuartContainer>

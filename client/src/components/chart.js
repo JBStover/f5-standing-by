@@ -3,26 +3,25 @@ import _ from 'lodash';
 import { React, useEffect, useState } from 'react';
 import {  Line } from 'react-chartjs-2';
 import { MDBContainer } from 'mdbreact';
-import { selectAllGPUResults, getGPUStatus } from '../slices/gpuSlice';
-import { selectAllConsoleResults, getConsoleStatus } from '../slices/consoleSlice';
+
 
 const Chart = () => {
-    const gpuResults = useSelector(selectAllGPUResults); 
-    const gpuStatus = useSelector(getGPUStatus);
-    const consoleResults = useSelector(selectAllConsoleResults);
-    const consoleStatus = useSelector(getConsoleStatus);    
+    const gpuResults = useSelector(state => state.gpus.searchedGPUs); 
+    const gpuStatus = useSelector(state => state.gpus.status);
+    const consoleResults = useSelector(state => state.consoles.searchedConsoles);
+    const consoleStatus = useSelector(state => state.consoles.status);    
     let strToNum = 0;
     //let consoleStrToNum = 0;
 
     console.log(gpuResults)
     useEffect(() => {          
-        if (gpuStatus === 'action successful') {
+        if (gpuStatus === 'succeeded') {
             calculateChart(gpuResults); 
-        } else if (consoleStatus ==='action successful') {
+        } else if (consoleStatus ==='succeeded') {
             calculateChart(consoleResults);
         };        
         
-    }, [calculateChart, gpuResults, consoleResults]);
+    }, [calculateChart, gpuStatus, consoleStatus]);
 
     const chartData = {
         labels: ['PlaceHolder1', 'PlaceHolder2', 'PlaceHolder3'],

@@ -6,7 +6,7 @@ import userSlice from './slices/userSlice';
 
 const store = configureStore({
     reducer: {
-        GPUs: gpuSlice.reducer, 
+        gpus: gpuSlice.reducer, 
         consoles: consoleSlice.reducer,
         users: userSlice.reducer    
     }
